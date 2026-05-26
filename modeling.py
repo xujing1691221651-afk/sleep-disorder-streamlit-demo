@@ -70,6 +70,8 @@ REPORT_METRICS = {
     "F1 macro": 0.6475,
 }
 
+MAX_TRAINING_ROWS = 25000
+
 
 def load_dataset(path: Path = DATA_PATH) -> pd.DataFrame:
     df = pd.read_csv(path)
@@ -94,8 +96,8 @@ def build_pipeline() -> Pipeline:
     )
 
     model = RandomForestClassifier(
-        n_estimators=200,
-        max_depth=18,
+        n_estimators=80,
+        max_depth=14,
         min_samples_leaf=2,
         class_weight="balanced_subsample",
         random_state=42,
@@ -111,6 +113,9 @@ def build_pipeline() -> Pipeline:
 
 
 def train_model(df: pd.DataFrame) -> dict[str, Any]:
+    if len(df) > MAX_TRAINING_ROWS:
+        df = df.sample(n=MAX_TRAINING_ROWS, random_state=42).copy()
+
     X = df[FEATURE_COLUMNS]
     y = df[TARGET_COLUMN]
 
