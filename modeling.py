@@ -70,7 +70,7 @@ REPORT_METRICS = {
     "F1 macro": 0.6475,
 }
 
-MAX_TRAINING_ROWS = 25000
+MAX_TRAINING_ROWS = 12000
 
 
 def load_dataset(path: Path = DATA_PATH) -> pd.DataFrame:
@@ -96,8 +96,8 @@ def build_pipeline() -> Pipeline:
     )
 
     model = RandomForestClassifier(
-        n_estimators=80,
-        max_depth=14,
+        n_estimators=40,
+        max_depth=12,
         min_samples_leaf=2,
         class_weight="balanced_subsample",
         random_state=42,
